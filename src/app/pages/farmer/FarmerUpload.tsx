@@ -1,100 +1,243 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { ArrowLeft, Plus, Check, X } from 'lucide-react';
+import { ArrowLeft, Plus, Check, X, Search } from 'lucide-react';
 import { useFreshProduce } from '../../contexts/FreshProduceContext';
 
+type Unit = 'kg' | 'unidad' | 'gr' | 'atado';
+
 interface ProductInput {
+  id: string;
   productName: string;
   quantity: string;
   price: string;
-  unit: 'kg' | 'unidad';
+  unit: Unit;
+  comment: string;
+  imageUrl: string;
   skipped: boolean;
 }
 
+const PLACEHOLDER_IMAGE =
+  'data:image/svg+xml;charset=UTF-8,' +
+  encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
+      <rect width="100%" height="100%" fill="#E8F5E9"/>
+      <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="28" fill="#2E7D32">
+        Producto fresco
+      </text>
+    </svg>
+  `);
+
+const PHOTO_PRODUCTS: Array<
+  Pick<ProductInput, 'id' | 'productName' | 'quantity' | 'unit' | 'imageUrl'>
+> = [
+  {
+    id: 'lechuga-carola-1',
+    quantity: '1',
+    unit: 'unidad',
+    productName: 'Lechuga Carola',
+    imageUrl: 'https://loremflickr.com/600/400/lettuce,vegetable?lock=1',
+  },
+  {
+    id: 'tomate-cherry-rojo-1',
+    quantity: '500',
+    unit: 'gr',
+    productName: 'Tomate cherry rojo',
+    imageUrl: 'https://loremflickr.com/600/400/tomato,vegetable?lock=2',
+  },
+  {
+    id: 'albahaca-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Albahaca',
+    imageUrl: 'https://loremflickr.com/600/400/basil,herbs?lock=3',
+  },
+  {
+    id: 'lechuga-crespa-morada-1',
+    quantity: '1',
+    unit: 'unidad',
+    productName: 'Lechuga Crespa morada',
+    imageUrl: 'https://loremflickr.com/600/400/purple-lettuce,vegetable?lock=4',
+  },
+  {
+    id: 'perejil-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Perejil',
+    imageUrl: 'https://loremflickr.com/600/400/parsley,herbs?lock=5',
+  },
+  {
+    id: 'espinaca-atado-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Espinaca',
+    imageUrl: 'https://loremflickr.com/600/400/spinach,vegetable?lock=6',
+  },
+  {
+    id: 'poro-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Poro',
+    imageUrl: 'https://loremflickr.com/600/400/leek,vegetable?lock=7',
+  },
+  {
+    id: 'apio-atado-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Apio',
+    imageUrl: 'https://loremflickr.com/600/400/celery,vegetable?lock=8',
+  },
+  {
+    id: 'perejil-2',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Perejil',
+    imageUrl: 'https://loremflickr.com/600/400/parsley,herbs?lock=9',
+  },
+  {
+    id: 'acelga-1',
+    quantity: '1',
+    unit: 'unidad',
+    productName: 'Acelga',
+    imageUrl: 'https://loremflickr.com/600/400/chard,vegetable?lock=10',
+  },
+  {
+    id: 'poro-2',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Poro',
+    imageUrl: 'https://loremflickr.com/600/400/leek,vegetable?lock=11',
+  },
+  {
+    id: 'rabanito-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Rabanito',
+    imageUrl: 'https://loremflickr.com/600/400/radish,vegetable?lock=12',
+  },
+  {
+    id: 'lechuga-crespa-verde-1',
+    quantity: '1',
+    unit: 'unidad',
+    productName: 'Lechuga crespa verde',
+    imageUrl: 'https://loremflickr.com/600/400/green-lettuce,vegetable?lock=13',
+  },
+  {
+    id: 'cilantro-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Cilantro',
+    imageUrl: 'https://loremflickr.com/600/400/cilantro,herbs?lock=14',
+  },
+  {
+    id: 'apio-unidad-1',
+    quantity: '1',
+    unit: 'unidad',
+    productName: 'Apio',
+    imageUrl: 'https://loremflickr.com/600/400/celery,vegetable?lock=15',
+  },
+  {
+    id: 'beterraga-1',
+    quantity: '1',
+    unit: 'atado',
+    productName: 'Beterraga',
+    imageUrl: 'https://loremflickr.com/600/400/beetroot,vegetable?lock=16',
+  },
+  {
+    id: 'espinaca-unidad-1',
+    quantity: '1',
+    unit: 'unidad',
+    productName: 'Espinaca',
+    imageUrl: 'https://loremflickr.com/600/400/spinach,vegetable?lock=17',
+  },
+  {
+    id: 'brocoli-1',
+    quantity: '1',
+    unit: 'unidad',
+    productName: 'Brócoli',
+    imageUrl: 'https://loremflickr.com/600/400/broccoli,vegetable?lock=18',
+  },
+];
 export function FarmerUpload() {
   const navigate = useNavigate();
-  const { activePeriod, presetProducts, uploadFarmerProducts, farmerProducts } =
-    useFreshProduce();
+  const { activePeriod, uploadFarmerProducts, farmerProducts } = useFreshProduce();
+
   const [farmerId, setFarmerId] = useState('');
-  const [productInputs, setProductInputs] = useState<Record<string, ProductInput>>({});
+  const [searchTerm, setSearchTerm] = useState('');
+  const [productInputs, setProductInputs] = useState<ProductInput[]>([]);
   const [customProducts, setCustomProducts] = useState<ProductInput[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     const storedId = sessionStorage.getItem('farmerId');
+
     if (!storedId) {
       navigate('/agricultor');
       return;
     }
+
     setFarmerId(storedId);
 
-    // Initialize preset products
-    const initial: Record<string, ProductInput> = {};
-    presetProducts.forEach((p) => {
-      initial[p.name] = {
-        productName: p.name,
-        quantity: '',
-        price: '',
-        unit: p.unit,
+    const existing = activePeriod
+      ? farmerProducts.filter(
+          (fp) => fp.farmerId === storedId && fp.periodId === activePeriod.id
+        )
+      : [];
+
+    const initialProducts = PHOTO_PRODUCTS.map((product) => {
+      const savedProduct = existing.find(
+        (fp) =>
+          fp.productName === product.productName &&
+          String((fp as any).unit) === product.unit
+      );
+
+      return {
+        ...product,
+        quantity: savedProduct ? String(savedProduct.quantity) : product.quantity,
+        price: savedProduct ? String(savedProduct.farmerPrice) : '',
+        comment: savedProduct ? String((savedProduct as any).comment || '') : '',
         skipped: false,
       };
     });
 
-    // Load existing products if editing
-    if (activePeriod) {
-      const existing = farmerProducts.filter(
-        (fp) => fp.farmerId === storedId && fp.periodId === activePeriod.id
-      );
-      existing.forEach((fp) => {
-        if (initial[fp.productName]) {
-          initial[fp.productName] = {
-            productName: fp.productName,
-            quantity: String(fp.quantity),
-            price: String(fp.farmerPrice),
-            unit: fp.unit,
-            skipped: false,
-          };
-        }
-      });
-    }
-
-    setProductInputs(initial);
-  }, [navigate, presetProducts, farmerProducts, activePeriod, farmerId]);
+    setProductInputs(initialProducts);
+  }, [navigate, farmerProducts, activePeriod]);
 
   const handleInputChange = (
-    productName: string,
-    field: 'quantity' | 'price',
+    id: string,
+    field: 'quantity' | 'price' | 'comment',
     value: string
   ) => {
-    setProductInputs((prev) => ({
-      ...prev,
-      [productName]: {
-        ...prev[productName],
-        [field]: value,
-      },
-    }));
+    setProductInputs((prev) =>
+      prev.map((product) =>
+        product.id === id ? { ...product, [field]: value } : product
+      )
+    );
   };
 
-  const handleSkip = (productName: string) => {
-    setProductInputs((prev) => ({
-      ...prev,
-      [productName]: {
-        ...prev[productName],
-        skipped: !prev[productName].skipped,
-        quantity: '',
-        price: '',
-      },
-    }));
+  const handleSkip = (id: string) => {
+    setProductInputs((prev) =>
+      prev.map((product) =>
+        product.id === id
+          ? {
+              ...product,
+              skipped: !product.skipped,
+            }
+          : product
+      )
+    );
   };
 
   const addCustomProduct = () => {
     setCustomProducts((prev) => [
       ...prev,
       {
+        id: `custom-${Date.now()}`,
         productName: '',
         quantity: '',
         price: '',
         unit: 'kg',
+        comment: '',
+        imageUrl: PLACEHOLDER_IMAGE,
         skipped: false,
       },
     ]);
@@ -106,7 +249,14 @@ export function FarmerUpload() {
     value: string
   ) => {
     setCustomProducts((prev) =>
-      prev.map((p, i) => (i === index ? { ...p, [field]: value } : p))
+      prev.map((product, i) =>
+        i === index
+          ? {
+              ...product,
+              [field]: field === 'unit' ? (value as Unit) : value,
+            }
+          : product
+      )
     );
   };
 
@@ -117,10 +267,9 @@ export function FarmerUpload() {
   const handleSave = () => {
     if (!activePeriod) return;
 
-    const productsToUpload = [];
+    const productsToUpload: any[] = [];
 
-    // Collect preset products
-    Object.values(productInputs).forEach((input) => {
+    productInputs.forEach((input) => {
       if (!input.skipped && input.quantity && input.price) {
         productsToUpload.push({
           farmerId,
@@ -129,11 +278,12 @@ export function FarmerUpload() {
           quantity: parseFloat(input.quantity),
           unit: input.unit,
           farmerPrice: parseFloat(input.price),
+          comment: input.comment.trim(),
+          imageUrl: input.imageUrl,
         });
       }
     });
 
-    // Collect custom products
     customProducts.forEach((input) => {
       if (input.productName && input.quantity && input.price) {
         productsToUpload.push({
@@ -143,6 +293,8 @@ export function FarmerUpload() {
           quantity: parseFloat(input.quantity),
           unit: input.unit,
           farmerPrice: parseFloat(input.price),
+          comment: input.comment.trim(),
+          imageUrl: input.imageUrl,
         });
       }
     });
@@ -156,6 +308,21 @@ export function FarmerUpload() {
     setShowSuccess(true);
   };
 
+  const filteredProducts = productInputs.filter((product) => {
+    const term = searchTerm.trim().toLowerCase();
+
+    if (!term) return true;
+
+    return (
+      product.productName.toLowerCase().includes(term) ||
+      product.unit.toLowerCase().includes(term)
+    );
+  });
+
+  const filledCount =
+    productInputs.filter((p) => !p.skipped && p.quantity && p.price).length +
+    customProducts.filter((p) => p.productName && p.quantity && p.price).length;
+
   if (showSuccess) {
     return (
       <div className="min-h-screen bg-[#FAFAF7] flex items-center justify-center p-4">
@@ -163,12 +330,15 @@ export function FarmerUpload() {
           <div className="w-24 h-24 bg-[#E8F5E9] rounded-full flex items-center justify-center mx-auto mb-6">
             <Check className="w-12 h-12 text-[#388E3C]" />
           </div>
+
           <h1 className="text-3xl font-bold text-[#1C1C1C] mb-4">
             ¡Listo! Guardamos tus productos.
           </h1>
+
           <p className="text-xl text-[#757575] mb-8">
             Buena Tierra ya puede ver lo que tienes disponible.
           </p>
+
           <button
             onClick={() => navigate('/agricultor/home')}
             className="w-full h-16 bg-[#2E7D32] text-white rounded-xl font-bold text-xl hover:bg-[#1B5E20] transition-colors"
@@ -180,121 +350,159 @@ export function FarmerUpload() {
     );
   }
 
-  const getPresetIcon = (name: string) => {
-    const product = presetProducts.find((p) => p.name === name);
-    return product?.icon || '🌿';
-  };
-
-  const filledCount = Object.values(productInputs).filter(
-    (p) => !p.skipped && p.quantity && p.price
-  ).length + customProducts.filter((p) => p.productName && p.quantity && p.price).length;
-
   return (
     <div className="min-h-screen bg-[#FAFAF7] pb-24">
-      {/* Header */}
-      <header className="bg-white border-b border-[#E8E8E0] px-4 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => navigate('/agricultor/home')}
-              className="p-2 hover:bg-[#F2F2EC] rounded-lg transition-colors"
-            >
-              <ArrowLeft className="w-6 h-6 text-[#1C1C1C]" />
-            </button>
-            <div>
-              <h1 className="text-xl font-bold text-[#1C1C1C]">Mis productos</h1>
-              <p className="text-sm text-[#757575]">
-                {filledCount} {filledCount === 1 ? 'producto agregado' : 'productos agregados'}
-              </p>
-            </div>
+      <header className="bg-white border-b border-[#E8E8E0] px-4 py-4 sticky top-0 z-20">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate('/agricultor/home')}
+            className="p-2 hover:bg-[#F2F2EC] rounded-lg transition-colors"
+          >
+            <ArrowLeft className="w-6 h-6 text-[#1C1C1C]" />
+          </button>
+
+          <div>
+            <h1 className="text-xl font-bold text-[#1C1C1C]">Mis productos</h1>
+            <p className="text-sm text-[#757575]">
+              {filledCount}{' '}
+              {filledCount === 1 ? 'producto agregado' : 'productos agregados'}
+            </p>
           </div>
         </div>
       </header>
 
       <div className="p-4">
-        {/* Instructions */}
-        <div className="bg-[#E8F5E9] border border-[#2E7D32] rounded-xl p-5 mb-6 animate-fade-in">
+        <div className="bg-[#E8F5E9] border border-[#2E7D32] rounded-xl p-5 mb-4 animate-fade-in">
           <h2 className="text-lg font-bold text-[#1B5E20] mb-2">
             Agrega lo que tienes disponible esta semana
           </h2>
           <p className="text-base text-[#757575]">
-            Llena la cantidad y el precio para cada producto que tengas
+            La lista ya viene con las cantidades y unidades de referencia.
+            Solo coloca precio y algún comentario si es necesario.
           </p>
         </div>
 
-        {/* Preset Products */}
+        <div className="bg-white rounded-2xl border border-[#E8E8E0] p-3 mb-5 sticky top-[73px] z-10 shadow-sm">
+          <div className="flex items-center gap-2">
+            <Search className="w-5 h-5 text-[#757575]" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar producto..."
+              className="w-full h-11 bg-transparent text-base text-[#1C1C1C] placeholder:text-[#9E9E9E] focus:outline-none"
+            />
+          </div>
+        </div>
+
         <div className="space-y-3 mb-6">
-          {Object.entries(productInputs).map(([name, input], index) => (
+          {filteredProducts.map((input, index) => (
             <div
-              key={name}
-              className={`bg-white rounded-2xl p-5 shadow-sm transition-all animate-fade-in ${
+              key={input.id}
+              className={`bg-white rounded-2xl p-4 shadow-sm transition-all animate-fade-in ${
                 !input.skipped && input.quantity && input.price
                   ? 'border-l-4 border-[#2E7D32]'
-                  : ''
+                  : 'border border-[#EFEFE8]'
               } ${input.skipped ? 'opacity-50' : ''}`}
               style={{
                 animationDelay: `${Math.min(index * 0.03, 0.2)}s`,
               }}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">{getPresetIcon(name)}</span>
-                <h3 className="text-xl font-bold text-[#1C1C1C]">{name}</h3>
-              </div>
+              <div className="flex items-center gap-4 mb-4">
+  <div className="w-24 h-24 shrink-0 overflow-hidden rounded-xl bg-[#E8F5E9]">
+    <img
+      src={input.imageUrl}
+      alt={input.productName}
+      onError={(e) => {
+        e.currentTarget.onerror = null;
+        e.currentTarget.src = PLACEHOLDER_IMAGE;
+      }}
+      className="w-full h-full object-cover"
+    />
+  </div>
+
+  <div className="flex-1 min-w-0">
+    <h3 className="text-xl font-bold text-[#1C1C1C] leading-tight">
+      {input.productName}
+    </h3>
+
+    <p className="text-sm text-[#757575] mt-1">
+      Presentación: {input.quantity} {input.unit}
+    </p>
+
+    <span className="inline-flex mt-2 px-3 py-1 bg-[#F1F8E9] text-[#2E7D32] rounded-full text-sm font-bold">
+      {input.quantity} {input.unit}
+    </span>
+  </div>
+</div>
 
               {!input.skipped ? (
                 <>
-                  <p className="text-base text-[#757575] mb-4">
-                    ¿Cuántos {input.unit} tienes?
-                  </p>
-
-                  <div className="space-y-3 mb-4">
+                  <div className="grid grid-cols-2 gap-3 mb-4">
                     <div>
                       <label className="block text-sm font-medium text-[#757575] mb-2">
                         Cantidad
                       </label>
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="number"
-                          inputMode="decimal"
-                          step="0.5"
-                          value={input.quantity}
-                          onChange={(e) =>
-                            handleInputChange(name, 'quantity', e.target.value)
-                          }
-                          placeholder="0"
-                          className="flex-1 h-14 px-4 text-xl bg-white border-2 border-[#E8E8E0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E7D32] focus:border-transparent"
-                          style={{ fontSize: '20px' }}
-                        />
-                        <span className="text-lg font-medium text-[#757575] min-w-[60px]">
-                          {input.unit}
-                        </span>
-                      </div>
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="0.5"
+                        value={input.quantity}
+                        onChange={(e) =>
+                          handleInputChange(input.id, 'quantity', e.target.value)
+                        }
+                        placeholder="0"
+                        className="w-full h-14 px-4 text-lg bg-white border-2 border-[#E8E8E0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E7D32] focus:border-transparent"
+                      />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-[#757575] mb-2">
-                        Precio por {input.unit}
+                        Unidad
                       </label>
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-medium text-[#757575]">S/</span>
-                        <input
-                          type="number"
-                          inputMode="decimal"
-                          step="0.01"
-                          value={input.price}
-                          onChange={(e) =>
-                            handleInputChange(name, 'price', e.target.value)
-                          }
-                          placeholder="0.00"
-                          className="flex-1 h-14 px-4 text-xl bg-white border-2 border-[#E8E8E0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E7D32] focus:border-transparent"
-                          style={{ fontSize: '20px' }}
-                        />
+                      <div className="h-14 px-4 flex items-center bg-[#F7F7F2] border-2 border-[#E8E8E0] rounded-xl text-lg font-medium text-[#757575]">
+                        {input.unit}
                       </div>
                     </div>
                   </div>
 
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-[#757575] mb-2">
+                      Precio para esta presentación
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-medium text-[#757575]">S/</span>
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="0.01"
+                        value={input.price}
+                        onChange={(e) =>
+                          handleInputChange(input.id, 'price', e.target.value)
+                        }
+                        placeholder="0.00"
+                        className="flex-1 h-14 px-4 text-lg bg-white border-2 border-[#E8E8E0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E7D32] focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-[#757575] mb-2">
+                      Comentario
+                    </label>
+                    <textarea
+                      value={input.comment}
+                      onChange={(e) =>
+                        handleInputChange(input.id, 'comment', e.target.value)
+                      }
+                      placeholder="Ej: cosechado hoy, hojas pequeñas, disponible desde mañana..."
+                      rows={3}
+                      className="w-full px-4 py-3 text-base bg-white border-2 border-[#E8E8E0] rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#2E7D32] focus:border-transparent"
+                    />
+                  </div>
+
                   <button
-                    onClick={() => handleSkip(name)}
+                    onClick={() => handleSkip(input.id)}
                     className="w-full h-12 border border-[#E8E8E0] text-[#757575] rounded-xl text-base font-medium hover:bg-[#F2F2EC] transition-colors"
                   >
                     No tengo esta semana
@@ -302,7 +510,7 @@ export function FarmerUpload() {
                 </>
               ) : (
                 <button
-                  onClick={() => handleSkip(name)}
+                  onClick={() => handleSkip(input.id)}
                   className="w-full h-12 border border-[#2E7D32] text-[#2E7D32] rounded-xl text-base font-medium hover:bg-[#F1F8E9] transition-colors"
                 >
                   Sí tengo, agregar
@@ -310,16 +518,26 @@ export function FarmerUpload() {
               )}
             </div>
           ))}
+
+          {filteredProducts.length === 0 && (
+            <div className="bg-white rounded-2xl p-6 text-center border border-[#E8E8E0]">
+              <p className="text-[#757575] text-base">
+                No encontramos productos con ese nombre.
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* Custom Products */}
         {customProducts.map((product, index) => (
           <div
-            key={index}
+            key={product.id}
             className="bg-white rounded-2xl p-5 shadow-sm mb-3 border border-[#2E7D32]"
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-[#1C1C1C]">Producto personalizado</h3>
+              <h3 className="text-lg font-bold text-[#1C1C1C]">
+                Producto personalizado
+              </h3>
+
               <button
                 onClick={() => removeCustomProduct(index)}
                 className="p-2 text-[#D32F2F] hover:bg-red-50 rounded-lg transition-colors"
@@ -375,13 +593,15 @@ export function FarmerUpload() {
                   >
                     <option value="kg">kg</option>
                     <option value="unidad">unidad</option>
+                    <option value="gr">gr</option>
+                    <option value="atado">atado</option>
                   </select>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-[#757575] mb-2">
-                  Precio por {product.unit}
+                  Precio
                 </label>
                 <div className="flex items-center gap-2">
                   <span className="text-lg font-medium text-[#757575]">S/</span>
@@ -398,11 +618,25 @@ export function FarmerUpload() {
                   />
                 </div>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#757575] mb-2">
+                  Comentario
+                </label>
+                <textarea
+                  value={product.comment}
+                  onChange={(e) =>
+                    updateCustomProduct(index, 'comment', e.target.value)
+                  }
+                  placeholder="Ej: cosechado hoy, disponible mañana..."
+                  rows={3}
+                  className="w-full px-4 py-3 text-base bg-white border-2 border-[#E8E8E0] rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#2E7D32]"
+                />
+              </div>
             </div>
           </div>
         ))}
 
-        {/* Add Custom Product Button */}
         <button
           onClick={addCustomProduct}
           className="w-full h-14 border-2 border-[#2E7D32] text-[#2E7D32] rounded-xl text-lg font-medium hover:bg-[#F1F8E9] transition-colors flex items-center justify-center gap-2 mb-6"
@@ -412,8 +646,7 @@ export function FarmerUpload() {
         </button>
       </div>
 
-      {/* Save Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#E8E8E0] p-4 z-10">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#E8E8E0] p-4 z-20">
         <button
           onClick={handleSave}
           className="w-full h-16 bg-[#2E7D32] text-white rounded-xl font-bold text-xl hover:bg-[#1B5E20] transition-colors flex items-center justify-center gap-2"
