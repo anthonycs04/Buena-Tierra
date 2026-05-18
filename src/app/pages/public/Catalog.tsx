@@ -12,13 +12,18 @@ const catalogBanner = '/banner/20260517_232520.jpg.jpeg';
 const categories = [
   'Todo',
   'Destacados',
-  'Hortalizas',
-  'Hierbas',
-  'Menestras',
-  'Endulzante',
-  'Miel y derivados',
-  'Sin gluten',
-  'Otros',
+  'hortalizas',
+  'hierbas',
+  'menestras',
+  'endulzante',
+  'miel y derivados',
+  'sin gluten',
+  'frutas',
+  'pan',
+  'aceites',
+  'fideos',
+  'snacks',
+  'untables',
 ];
 
 export function Catalog() {
@@ -34,7 +39,7 @@ export function Catalog() {
     const matchesCategory =
       selectedCategory === 'Todo' ||
       (selectedCategory === 'Destacados' && product.featured) ||
-      product.category === selectedCategory;
+      product.category.toLowerCase() === selectedCategory.toLowerCase();
 
     const matchesSearch = product.name
       .toLowerCase()

@@ -9,7 +9,7 @@ export function Products() {
   const [searchQuery, setSearchQuery] = useState('');
   const [editedProducts, setEditedProducts] = useState<Record<string, Partial<Product>>>({});
 
-  const categories = ['Hortalizas', 'Hierbas', 'Menestras', 'Miel y derivados', 'Endulzante', 'Sin gluten', 'Otros'];
+  const categories = ['hortalizas', 'hierbas', 'menestras', 'endulzante', 'miel y derivados', 'sin gluten', 'frutas', 'pan', 'aceites', 'fideos', 'snacks', 'untables'];
 
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
