@@ -109,21 +109,21 @@ export function Catalog() {
               className="absolute inset-0 h-full w-full object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-black/5" />
-            <div className="relative flex h-full items-center justify-between px-4">
-            <div className="min-w-0">
+            <div className="relative flex h-full items-center justify-between gap-2 px-4">
+            <div className="min-w-0 flex-1">
               <h1
                 className="text-3xl font-bold text-white drop-shadow-md"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 Buena Tierra
               </h1>
-              <p className="mt-1 max-w-[260px] text-sm font-semibold leading-snug text-white drop-shadow-md">
+              <p className="mt-1 max-w-[230px] text-xs font-semibold leading-snug text-white drop-shadow-md">
                 Alimentación saludable
                 <br />
                 Por una agricultura sustentable y justa
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex w-[86px] shrink-0 items-center justify-end gap-1.5">
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
                 className="rounded-full bg-white/90 p-2 shadow-md backdrop-blur-sm"
