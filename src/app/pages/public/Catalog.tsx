@@ -84,12 +84,19 @@ export function Catalog() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-black/5" />
             <div className="relative flex h-full items-center justify-between px-4">
-            <h1
-              className="text-3xl font-bold text-white drop-shadow-md"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
-              Buena Tierra
-            </h1>
+            <div className="min-w-0">
+              <h1
+                className="text-3xl font-bold text-white drop-shadow-md"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Buena Tierra
+              </h1>
+              <p className="mt-1 max-w-[260px] text-sm font-semibold leading-snug text-white drop-shadow-md">
+                Alimentación saludable
+                <br />
+                Por una agricultura sustentable y justa
+              </p>
+            </div>
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative rounded-full bg-white/90 p-2 shadow-md backdrop-blur-sm"
@@ -269,12 +276,19 @@ export function Catalog() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-black/10" />
           <div className="relative flex h-full items-center justify-between px-8">
-            <h1
-              className="text-5xl font-bold text-white drop-shadow-lg"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
-              Buena Tierra
-            </h1>
+            <div>
+              <h1
+                className="text-5xl font-bold text-white drop-shadow-lg"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Buena Tierra
+              </h1>
+              <p className="mt-2 text-xl font-semibold leading-tight text-white drop-shadow-lg">
+                Alimentación saludable
+                <br />
+                Por una agricultura sustentable y justa
+              </p>
+            </div>
 
             <div className="relative w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#757575]" />
