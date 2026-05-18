@@ -5,30 +5,19 @@ import { useCart } from '../../contexts/CartContext';
 import { useAdmin } from '../../contexts/AdminContext';
 import { CartSheet } from '../../components/CartSheet';
 import { DesktopCartPanel } from '../../components/DesktopCartPanel';
+import { ProductImage } from '../../components/ProductImage';
+
+const catalogBanner = '/banner/20260517_232520.jpg.jpeg';
 
 const categories = [
   'Todo',
   'Destacados',
-  'Spirulina',
-  '🎉 Promo',
+  'Hortalizas',
+  'Hierbas',
   'Menestras',
   'Endulzante',
-  'Harinas/Polvos',
-  'Hojuelas',
-  'Semillas',
-  'Aceites comestibles',
-  'Snacks',
-  'Chocolate para comer',
-  'Café',
-  'Huevos',
-  'Frutas',
-  'Hortalizas',
   'Miel y derivados',
-  'Delivery',
   'Sin gluten',
-  'Hierbas',
-  'Arroz',
-  'Quinua',
   'Otros',
 ];
 
@@ -44,7 +33,6 @@ export function Catalog() {
     const matchesCategory =
       selectedCategory === 'Todo' ||
       (selectedCategory === 'Destacados' && product.featured) ||
-      (selectedCategory === '🎉 Promo' && product.promo) ||
       product.category === selectedCategory;
 
     const matchesSearch = product.name
@@ -81,17 +69,24 @@ export function Catalog() {
       {/* MOBILE LAYOUT */}
       <div className="lg:hidden min-h-screen pb-20">
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 bg-white border-b border-[#E8E8E0] z-40">
-          <div className="flex items-center justify-between px-4 h-14">
+        <header className="fixed top-0 left-0 right-0 bg-white border-b border-[#E8E8E0] shadow-sm z-40">
+          <div className="relative h-24 overflow-hidden">
+            <img
+              src={catalogBanner}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-black/5" />
+            <div className="relative flex h-full items-center justify-between px-4">
             <h1
-              className="text-xl text-[#2E7D32]"
+              className="text-3xl font-bold text-white drop-shadow-md"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               Buena Tierra
             </h1>
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2"
+              className="relative rounded-full bg-white/90 p-2 shadow-md backdrop-blur-sm"
               aria-label="Cart"
             >
               <ShoppingCart className="w-6 h-6 text-[#2E7D32]" />
@@ -101,11 +96,11 @@ export function Catalog() {
                 </span>
               )}
             </button>
+            </div>
           </div>
-        </header>
 
         {/* Search Bar */}
-        <div className="fixed top-14 left-0 right-0 bg-white px-4 py-3 z-30 border-b border-[#E8E8E0]">
+          <div className="bg-white px-4 py-3 border-b border-[#E8E8E0]">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#757575]" />
             <input
@@ -116,10 +111,10 @@ export function Catalog() {
               className="w-full h-12 pl-10 pr-4 bg-[#F2F2EC] border-none rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2E7D32]"
             />
           </div>
-        </div>
+          </div>
 
         {/* Category Chips */}
-        <div className="fixed top-[7.5rem] left-0 right-0 bg-white z-20 border-b border-[#E8E8E0]">
+          <div className="bg-white border-b border-[#E8E8E0]">
           <div className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2 px-4 py-3 min-w-max">
               {categories.map((category) => (
@@ -137,10 +132,11 @@ export function Catalog() {
               ))}
             </div>
           </div>
-        </div>
+          </div>
+        </header>
 
         {/* Product List - Mobile Horizontal Cards */}
-        <div className="mt-[11.5rem] px-4 space-y-2 pb-4">
+        <div className="pt-[14.75rem] px-4 space-y-2 pb-4">
           {filteredProducts.map((product, index) => {
             const cartItem = getItemInCart(product.id);
 
@@ -154,9 +150,10 @@ export function Catalog() {
               >
                 {/* Product Image */}
                 <div className="relative flex-shrink-0">
-                  <div className="w-[72px] h-[72px] bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">🌿</span>
-                  </div>
+                  <ProductImage
+                    product={product}
+                    className="w-[72px] h-[72px] rounded-lg"
+                  />
 
                   {/* Badges */}
                   {product.promo && (
@@ -245,17 +242,38 @@ export function Catalog() {
       </div>
 
       {/* DESKTOP LAYOUT */}
-      <div className="hidden lg:flex min-h-screen bg-[#FAFAF7]">
-        {/* Left Sidebar - Categories */}
-        <aside className="w-[220px] bg-white border-r border-[#E8E8E0] fixed h-full overflow-y-auto smooth-scroll scrollbar-thin">
-          <div className="p-6 animate-fade-in">
+      <div className="hidden lg:flex min-h-screen bg-[#FAFAF7] pt-[128px]">
+        <header className="fixed top-0 left-0 right-0 h-[128px] bg-white shadow-sm z-40 overflow-hidden">
+          <img
+            src={catalogBanner}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-black/10" />
+          <div className="relative flex h-full items-center justify-between px-8">
             <h1
-              className="text-2xl text-[#2E7D32] mb-8"
+              className="text-5xl font-bold text-white drop-shadow-lg"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               Buena Tierra
             </h1>
 
+            <div className="relative w-80">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#757575]" />
+              <input
+                type="text"
+                placeholder="Buscar productos..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full h-12 pl-10 pr-4 bg-white/95 border border-white/70 rounded-xl text-sm shadow-md backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#2E7D32]"
+              />
+            </div>
+          </div>
+        </header>
+
+        {/* Left Sidebar - Categories */}
+        <aside className="w-[220px] bg-white border-r border-[#E8E8E0] fixed top-[128px] h-[calc(100vh-128px)] overflow-y-auto smooth-scroll scrollbar-thin">
+          <div className="p-6 animate-fade-in">
             <h2 className="text-base font-bold text-[#1C1C1C] mb-4">
               Categorías
             </h2>
@@ -299,18 +317,6 @@ export function Catalog() {
               >
                 {selectedCategory}
               </h1>
-
-              {/* Search */}
-              <div className="relative w-80">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#757575]" />
-                <input
-                  type="text"
-                  placeholder="Buscar productos..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-12 pl-10 pr-4 bg-white border border-[#E8E8E0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2E7D32]"
-                />
-              </div>
             </div>
 
             {/* Product List - Desktop Vertical Cards */}
@@ -337,9 +343,10 @@ export function Catalog() {
                   >
                     {/* Product Image */}
                     <div className="relative w-[320px] h-[200px] flex-shrink-0">
-                      <div className="w-full h-full bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] flex items-center justify-center">
-                        <span className="text-6xl">🌿</span>
-                      </div>
+                      <ProductImage
+                        product={product}
+                        className="w-full h-full"
+                      />
 
                       {/* Discount Badge */}
                       {product.promo && discount > 0 && (
@@ -403,8 +410,8 @@ export function Catalog() {
                       </div>
 
                       <p className="text-sm text-[#757575] leading-relaxed line-clamp-2">
-                        Producto natural y orgánico de alta calidad. Perfecto para
-                        una alimentación saludable y balanceada.
+                        {product.description ||
+                          'Producto natural y orgánico de alta calidad. Perfecto para una alimentación saludable y balanceada.'}
                       </p>
 
                       {product.stock === 0 && (

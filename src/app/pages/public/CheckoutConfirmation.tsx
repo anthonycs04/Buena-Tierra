@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { CheckCircle, Download, Home } from 'lucide-react';
 import { useAdmin } from '../../contexts/AdminContext';
 import { useCart } from '../../contexts/CartContext';
+import { ProductImage } from '../../components/ProductImage';
 
 export function CheckoutConfirmation() {
   const navigate = useNavigate();
@@ -188,9 +189,11 @@ Estado: Nuevo pedido registrado`;
                 className="flex items-center justify-between py-2 border-b border-[#E8E8E0] last:border-0"
               >
                 <div className="flex items-center gap-3 flex-1">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg">🌿</span>
-                  </div>
+                  <ProductImage
+                    product={item.product}
+                    className="w-12 h-12 rounded-lg flex-shrink-0"
+                    showIndicator={false}
+                  />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-[#1C1C1C]">
                       {item.product.name}

@@ -1,5 +1,6 @@
 import { ShoppingCart, Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
+import { ProductImage } from './ProductImage';
 
 interface DesktopCartPanelProps {
   onCheckout: () => void;
@@ -13,7 +14,7 @@ export function DesktopCartPanel({ onCheckout }: DesktopCartPanelProps) {
   }
 
   return (
-    <aside className="fixed top-0 right-0 w-[340px] h-full bg-white border-l border-[#E8E8E0] shadow-xl z-50 flex flex-col animate-slide-in-right">
+    <aside className="fixed top-[128px] right-0 w-[340px] h-[calc(100vh-128px)] bg-white border-l border-[#E8E8E0] shadow-xl z-30 flex flex-col animate-slide-in-right">
       {/* Header */}
       <div className="p-6 border-b border-[#E8E8E0]">
         <div className="flex items-center justify-between mb-2">
@@ -35,9 +36,11 @@ export function DesktopCartPanel({ onCheckout }: DesktopCartPanelProps) {
             className="flex gap-3 pb-4 border-b border-[#E8E8E0] last:border-0"
           >
             {/* Thumbnail */}
-            <div className="w-16 h-16 bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center flex-shrink-0">
-              <span className="text-2xl">🌿</span>
-            </div>
+            <ProductImage
+              product={item}
+              className="w-16 h-16 rounded-lg flex-shrink-0"
+              showIndicator={false}
+            />
 
             {/* Item Info */}
             <div className="flex-1 min-w-0">

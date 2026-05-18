@@ -56,26 +56,175 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 // Mock data
 const mockProducts: Product[] = [
-  { id: '1', name: 'Spirulina Orgánica en Polvo 250g', price: 35.00, image: '', category: 'Spirulina', stock: 20, featured: true },
-  { id: '2', name: 'Quinua Roja Premium 500g', price: 18.50, image: '', category: 'Quinua', stock: 45, promo: true, promoPrice: 15.00 },
-  { id: '3', name: 'Miel de Abeja Pura Orgánica 350g', price: 28.00, image: '', category: 'Miel y derivados', stock: 12 },
-  { id: '4', name: 'Aceite de Coco Virgen Extra 500ml', price: 42.00, image: '', category: 'Aceites comestibles', stock: 8 },
-  { id: '5', name: 'Semillas de Chía Orgánica 400g', price: 22.00, image: '', category: 'Semillas', stock: 30 },
-  { id: '6', name: 'Harina de Almendras Sin Gluten 300g', price: 38.00, image: '', category: 'Harinas/Polvos', stock: 15, featured: true },
-  { id: '7', name: 'Chocolate Orgánico 70% Cacao 100g', price: 16.00, image: '', category: 'Chocolate para comer', stock: 25, promo: true, promoPrice: 14.00 },
-  { id: '8', name: 'Café Orgánico Premium Molido 250g', price: 32.00, image: '', category: 'Café', stock: 18 },
-  { id: '9', name: 'Hojuelas de Avena Integral 500g', price: 12.50, image: '', category: 'Hojuelas', stock: 40, promo: true, promoPrice: 11.00 },
-  { id: '10', name: 'Lentejas Orgánicas 500g', price: 14.00, image: '', category: 'Menestras', stock: 35 },
-  { id: '11', name: 'Stevia Natural en Polvo 100g', price: 24.00, image: '', category: 'Endulzante', stock: 22 },
-  { id: '12', name: 'Mix de Frutos Secos Premium 300g', price: 28.50, image: '', category: 'Snacks', stock: 18, featured: true },
-  { id: '13', name: 'Huevos Orgánicos de Campo x12', price: 18.00, image: '', category: 'Huevos', stock: 25 },
-  { id: '14', name: 'Aceite de Oliva Extra Virgen 500ml', price: 48.00, image: '', category: 'Aceites comestibles', stock: 12, promo: true, promoPrice: 42.00 },
-  { id: '15', name: 'Arroz Integral Orgánico 1kg', price: 16.00, image: '', category: 'Arroz', stock: 50 },
-  { id: '16', name: 'Quinua Blanca Premium 500g', price: 17.00, image: '', category: 'Quinua', stock: 38 },
-  { id: '17', name: 'Miel de Manuka Premium 250g', price: 65.00, image: '', category: 'Miel y derivados', stock: 8, featured: true },
-  { id: '18', name: 'Almendras Naturales 250g', price: 26.00, image: '', category: 'Snacks', stock: 20 },
-  { id: '19', name: 'Hierba Luisa Orgánica 50g', price: 12.00, image: '', category: 'Hierbas', stock: 15 },
-  { id: '20', name: 'Palta Orgánica x Kg', price: 22.00, image: '', category: 'Frutas', stock: 10 },
+  {
+    id: '1',
+    name: 'Acelga agroecológica',
+    price: 2.90,
+    image: '/images/ACELGA AGROECOLÓGICA- fondo blanco.jpg',
+    images: [
+      '/images/ACELGA AGROECOLÓGICA- fondo blanco.jpg',
+      '/images/ACELGA AGROECOLÓGICA- en campo.jpg',
+    ],
+    category: 'Hortalizas',
+    unit: 'atado',
+    description: `Libre de agroquímicos y fertilizantes sintéticos.
+Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
+Producido por: Eudosia Otoya, agricultora agroecológica de La Yarada Los Palos`,
+    stock: 35,
+    featured: true,
+  },
+  {
+    id: '2',
+    name: 'Apio agroecológico',
+    price: 2.90,
+    image: '/images/APIO AGROECOLÓGICO- fondo blanco.jpg',
+    images: [
+      '/images/APIO AGROECOLÓGICO- fondo blanco.jpg',
+      '/images/APIO AGROECOLÓGICO-campo.jpg',
+    ],
+    category: 'Hortalizas',
+    unit: 'atado',
+    description: `Libre de agroquímicos y fertilizantes sintéticos.
+Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
+Producido por: Julia Mamani Cárdenas, agricultora agroecológica de Calana`,
+    stock: 28,
+  },
+  {
+    id: '3',
+    name: 'Cilantro agroecológico',
+    price: 2.30,
+    image: '/images/CILANTRO AGROECOLÓGICO- fondo blanco.jpg',
+    images: [
+      '/images/CILANTRO AGROECOLÓGICO- fondo blanco.jpg',
+      '/images/CILANTRO AGROECOLÓGICO- campo.jpg',
+    ],
+    category: 'Hierbas',
+    unit: 'atado',
+    description: `Libre de agroquímicos y fertilizantes sintéticos.
+Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
+Producido por: Eudosia Otoya, agricultora agroecológica de La Yarada Los Palos`,
+    stock: 45,
+  },
+  {
+    id: '4',
+    name: 'Espinaca agroecológica',
+    price: 4.20,
+    image: '/images/ESPINACA-ORGANICA-TUMERCADO.jpg',
+    images: [
+      '/images/ESPINACA-ORGANICA-TUMERCADO.jpg',
+      '/images/ESPINACA AGROECOLÓGICA-campo.png',
+    ],
+    category: 'Hortalizas',
+    unit: 'atado',
+    description: `Libre de agroquímicos y fertilizantes sintéticos.
+Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
+Proveedor: Eudosia Otoya, agricultora agroecológica de La Yarada Los Palos`,
+    stock: 30,
+    featured: true,
+  },
+  {
+    id: '5',
+    name: 'Frejol negro orgánico, Campo Verde Ayacucho, 500 gr',
+    price: 9.90,
+    image: '/images/FREJOL NEGRO ORGÁNICO.png',
+    category: 'Menestras',
+    unit: '500 gr',
+    description: `Es un alimento energético y una de las mejores fuentes de proteína vegetal.
+Excelente fuente de energía y fibra, tienen un bajo índice glucémico, con grandes propiedades desintoxicantes.
+
+Origen: Ayacucho
+Producido por: Cooperativa Agraria Frutos del Ande`,
+    stock: 20,
+  },
+  {
+    id: '6',
+    name: 'Lechuga carola agroecológica',
+    price: 2.90,
+    image: '/images/LECHUGA AGROECOLÓGICA- fondo blanco.png',
+    images: [
+      '/images/LECHUGA AGROECOLÓGICA- fondo blanco.png',
+      '/images/LECHUGA CAROLA AGROECOLÓGICA - en campo.jpg',
+    ],
+    category: 'Hortalizas',
+    unit: 'unidad',
+    description: `Libre de agroquímicos y fertilizantes sintéticos.
+Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
+Producido por: Julia Mamani Cárdenas, agricultora agroecológica de Calana`,
+    stock: 32,
+  },
+  {
+    id: '7',
+    name: 'Miel de abeja virgen, Monteflor, 1 kg',
+    price: 35.00,
+    image: '/images/MIEL DE ABEJA VIRGEN.png',
+    category: 'Miel y derivados',
+    unit: '1 kg',
+    description: `100 % miel de abeja virgen de Sama y Tarata, con floración silvestre de los árboles de chañal, molle, chilca, frutales y trébol.
+La cristalización y dosificación de una miel virgen es un proceso natural frente a los cambios de temperatura y peso del tiempo.
+Origen: Tacna
+Producido por: Monteflor
+Apicultor profesional: Ing. Jorge Segura Dávila`,
+    stock: 12,
+    featured: true,
+  },
+  {
+    id: '8',
+    name: 'Panela orgánica, Norandino, 500 gr',
+    price: 7.50,
+    image: '/images/PANELA ORGÁNICA.jpg',
+    category: 'Endulzante',
+    unit: '500 gr',
+    description: `Es un endulzante natural obtenido solo de la evaporación de agua de los jugos de caña y la cristalización de la sacarosa, el mismo que contiene minerales y vitaminas.
+Origen: Piura
+Producido por: Cooperativa Agraria Norandino`,
+    stock: 24,
+  },
+  {
+    id: '9',
+    name: 'Perejil agroecológico',
+    price: 2.30,
+    image: '/images/PEREJIL AGROECOLÓGICO- fondo blanco.jpg',
+    images: [
+      '/images/PEREJIL AGROECOLÓGICO- fondo blanco.jpg',
+      '/images/PEREJIL AGROECOLÓGICO- campo.jfif',
+    ],
+    category: 'Hierbas',
+    unit: 'atado',
+    description: `Libre de agroquímicos y fertilizantes sintéticos.
+Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
+Producido por: Carmen Mamani de Laquita, agricultora agroecológica de La Yarada Los Palos`,
+    stock: 40,
+  },
+  {
+    id: '10',
+    name: 'Tomate agroecológica',
+    price: 5.00,
+    image: '/images/TOMATE AGROECOLÓGICO - fondo blanco.jpg',
+    images: [
+      '/images/TOMATE AGROECOLÓGICO - fondo blanco.jpg',
+      '/images/TOMATE AGROECOLÓGICO- campo.jpg',
+    ],
+    category: 'Hortalizas',
+    unit: 'kilo',
+    description: `Libre de agroquímicos y fertilizantes sintéticos.
+Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
+Producido por: Carmen Mamani de Laquita, agricultora agroecológica de La Yarada Los Palos`,
+    stock: 18,
+  },
+  {
+    id: '11',
+    name: 'Torta de arándanos sin gluten en porción',
+    price: 17.50,
+    image: '/images/TORTA DE ARÁNDANOS SIN GLUTEN.jpg',
+    category: 'Sin gluten',
+    unit: 'porción',
+    description: `Deliciosa torta de arándanos sin gluten, sin lactosa, sin soya, sin azúcar refinada. 100% vegana.
+Ingredientes: Harina de kiwicha, fécula de yuca, aceite de coco, arándano, stevia, yacón. Relleno mermelada, artesanal de arándano y stevia. Decorado con crema vegana de coco y jalea de arándano artesanal.
+Origen: Tacna
+Elaborado por: Ing. Minelly Cáceres, especialista en pastelería celíaca, diabética y vegana`,
+    stock: 10,
+    featured: true,
+  },
 ];
 
 const mockOrders: Order[] = [
@@ -92,7 +241,7 @@ const mockOrders: Order[] = [
       { product: mockProducts[0], quantity: 2 },
       { product: mockProducts[4], quantity: 1 },
     ],
-    total: 92.00,
+    total: 15.70,
     date: new Date(),
     vendor: 'María López',
   },

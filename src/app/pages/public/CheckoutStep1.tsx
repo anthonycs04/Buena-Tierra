@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router';
 import { ArrowLeft, Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
+import { ProductImage } from '../../components/ProductImage';
 
 export function CheckoutStep1() {
   const navigate = useNavigate();
@@ -64,9 +65,11 @@ export function CheckoutStep1() {
             }}
           >
             {/* Thumbnail */}
-            <div className="w-16 h-16 bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center flex-shrink-0">
-              <span className="text-2xl">🌿</span>
-            </div>
+            <ProductImage
+              product={item}
+              className="w-16 h-16 rounded-lg flex-shrink-0"
+              showIndicator={false}
+            />
 
             {/* Item Info */}
             <div className="flex-1 min-w-0">

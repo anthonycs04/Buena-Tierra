@@ -1,5 +1,6 @@
 import { X, Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
+import { ProductImage } from './ProductImage';
 
 interface CartSheetProps {
   isOpen: boolean;
@@ -52,9 +53,11 @@ export function CartSheet({ isOpen, onClose, onCheckout }: CartSheetProps) {
               className="flex gap-3 pb-3 border-b border-[#E8E8E0] last:border-0"
             >
               {/* Thumbnail */}
-              <div className="w-12 h-12 bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-lg">🌿</span>
-              </div>
+              <ProductImage
+                product={item}
+                className="w-12 h-12 rounded-lg flex-shrink-0"
+                showIndicator={false}
+              />
 
               {/* Item Info */}
               <div className="flex-1 min-w-0">

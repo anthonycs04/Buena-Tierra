@@ -1,5 +1,6 @@
 import { TrendingUp, AlertCircle, CheckCircle, Package } from 'lucide-react';
 import { useAdmin } from '../../contexts/AdminContext';
+import { ProductImage } from '../../components/ProductImage';
 
 export function Dashboard() {
   const { products, orders, customers } = useAdmin();
@@ -16,9 +17,10 @@ export function Dashboard() {
 
   const lowStockProducts = products.filter((p) => p.stock < 5).length;
 
-  const topProducts = products
+  const topProducts = [...products]
     .sort((a, b) => b.stock - a.stock)
     .slice(0, 5);
+  const featuredCategories = Array.from(new Set(products.map((p) => p.category))).slice(0, 5);
 
   return (
     <div className="p-4 lg:p-6 pb-20 lg:pb-6 smooth-scroll">
@@ -100,9 +102,11 @@ export function Dashboard() {
                 <span className="text-lg font-bold text-[#757575] w-6">
                   {index + 1}
                 </span>
-                <div className="w-10 h-10 bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center">
-                  <span>🌿</span>
-                </div>
+                <ProductImage
+                  product={product}
+                  className="w-10 h-10 rounded-lg flex-shrink-0"
+                  showIndicator={false}
+                />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-[#1C1C1C] truncate">
                     {product.name}
@@ -126,8 +130,8 @@ export function Dashboard() {
             Categorías destacadas
           </h2>
           <div className="space-y-3">
-            {['Spirulina', 'Quinua', 'Miel', 'Aceites', 'Chocolate'].map(
-              (cat, index) => (
+            {featuredCategories.map(
+              (cat) => (
                 <div
                   key={cat}
                   className="flex items-center justify-between pb-3 border-b border-[#E8E8E0] last:border-0"

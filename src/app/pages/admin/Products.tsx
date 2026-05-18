@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { Search, Plus, MoreVertical } from 'lucide-react';
 import { useAdmin } from '../../contexts/AdminContext';
 import { Product } from '../../contexts/CartContext';
+import { ProductImage } from '../../components/ProductImage';
 
 export function Products() {
   const { products, updateProduct } = useAdmin();
   const [searchQuery, setSearchQuery] = useState('');
   const [editedProducts, setEditedProducts] = useState<Record<string, Partial<Product>>>({});
 
-  const categories = ['Spirulina', 'Quinua', 'Miel y derivados', 'Aceites comestibles', 'Semillas', 'Harinas/Polvos', 'Chocolate para comer', 'Café', 'Hojuelas', 'Menestras', 'Endulzante', 'Snacks', 'Huevos', 'Frutas', 'Hortalizas', 'Hierbas', 'Arroz', 'Otros'];
+  const categories = ['Hortalizas', 'Hierbas', 'Menestras', 'Miel y derivados', 'Endulzante', 'Sin gluten', 'Otros'];
 
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -125,9 +126,11 @@ export function Products() {
                   className="border-b border-[#E8E8E0] hover:bg-[#FAFAF7]"
                 >
                   <td className="px-4 py-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center">
-                      <span>🌿</span>
-                    </div>
+                    <ProductImage
+                      product={product}
+                      className="w-10 h-10 rounded-lg"
+                      showIndicator={false}
+                    />
                   </td>
                   <td
                     className={`px-4 py-3 text-sm ${
@@ -236,9 +239,11 @@ export function Products() {
               }}
             >
               <div className="flex gap-3 mb-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#A5D6A7] to-[#2E7D32] rounded-lg flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl">🌿</span>
-                </div>
+                <ProductImage
+                  product={product}
+                  className="w-14 h-14 rounded-lg flex-shrink-0"
+                  showIndicator={false}
+                />
                 <div className="flex-1 min-w-0">
                   <input
                     type="text"
