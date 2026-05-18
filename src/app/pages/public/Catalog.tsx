@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Search, ShoppingCart, Plus, Check, Minus } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
+import { Search, ShoppingCart, Plus, Check, Minus, X } from 'lucide-react';
+import { Product, useCart } from '../../contexts/CartContext';
 import { useAdmin } from '../../contexts/AdminContext';
 import { CartSheet } from '../../components/CartSheet';
 import { DesktopCartPanel } from '../../components/DesktopCartPanel';
@@ -28,6 +28,7 @@ export function Catalog() {
   const [selectedCategory, setSelectedCategory] = useState('Todo');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const filteredProducts = products.filter((product) => {
     const matchesCategory =
@@ -44,6 +45,11 @@ export function Catalog() {
 
   const handleAddToCart = (product: any) => {
     addToCart(product);
+  };
+
+  const handleDetailAddToCart = (product: Product) => {
+    addToCart(product);
+    setSelectedProduct(null);
   };
 
   const getItemInCart = (productId: string) => {
@@ -143,9 +149,18 @@ export function Catalog() {
             return (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow-sm overflow-hidden flex gap-3 p-3 relative hover:shadow-md transition-shadow animate-fade-in"
+                onClick={() => setSelectedProduct(product)}
+                className="bg-white rounded-xl shadow-sm overflow-hidden flex gap-3 p-3 relative hover:shadow-md transition-shadow animate-fade-in cursor-pointer"
                 style={{
                   animationDelay: `${Math.min(index * 0.03, 0.2)}s`
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setSelectedProduct(product);
+                  }
                 }}
               >
                 {/* Product Image */}
@@ -169,7 +184,10 @@ export function Catalog() {
 
                   {/* Add Button */}
                   <button
-                    onClick={() => handleAddToCart(product)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleAddToCart(product);
+                    }}
                     disabled={product.stock === 0}
                     className="absolute -bottom-1 -right-1 w-7 h-7 bg-[#2E7D32] hover:bg-[#1B5E20] disabled:bg-gray-400 disabled:opacity-50 rounded-full flex items-center justify-center text-white shadow-md transition-colors"
                     aria-label="Add to cart"
@@ -334,11 +352,20 @@ export function Catalog() {
                 return (
                   <div
                     key={product.id}
-                    className="bg-white rounded-xl shadow-sm overflow-hidden flex hover:shadow-md transition-shadow duration-300"
+                    onClick={() => setSelectedProduct(product)}
+                    className="bg-white rounded-xl shadow-sm overflow-hidden flex hover:shadow-md transition-shadow duration-300 cursor-pointer"
                     style={{
                       animation: 'fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
                       animationDelay: `${Math.min(index * 0.05, 0.3)}s`,
                       animationFillMode: 'backwards'
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        setSelectedProduct(product);
+                      }
                     }}
                   >
                     {/* Product Image */}
@@ -358,7 +385,10 @@ export function Catalog() {
                       {/* Add/Quantity Controls */}
                       {!cartItem ? (
                         <button
-                          onClick={() => handleAddToCart(product)}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleAddToCart(product);
+                          }}
                           disabled={product.stock === 0}
                           className="absolute -bottom-6 -right-6 w-[52px] h-[52px] bg-[#2E7D32] hover:bg-[#1B5E20] disabled:bg-gray-400 disabled:opacity-50 rounded-full flex items-center justify-center text-white shadow-lg transition-all hover:scale-110"
                           aria-label="Add to cart"
@@ -368,7 +398,10 @@ export function Catalog() {
                       ) : (
                         <div className="absolute -bottom-6 -right-6 flex items-center gap-2 bg-white rounded-full shadow-lg p-1">
                           <button
-                            onClick={() => handleDecrement(product.id)}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              handleDecrement(product.id);
+                            }}
                             className="w-10 h-10 bg-[#F2F2EC] hover:bg-[#E8E8E0] rounded-full flex items-center justify-center transition-colors"
                           >
                             <Minus className="w-4 h-4 text-[#2E7D32]" />
@@ -377,7 +410,10 @@ export function Catalog() {
                             {cartItem.quantity}
                           </span>
                           <button
-                            onClick={() => handleIncrement(product.id)}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              handleIncrement(product.id);
+                            }}
                             className="w-10 h-10 bg-[#2E7D32] hover:bg-[#1B5E20] rounded-full flex items-center justify-center transition-colors"
                           >
                             <Plus className="w-4 h-4 text-white" />
@@ -445,6 +481,87 @@ export function Catalog() {
           onCheckout={() => navigate('/checkout/step1')}
         />
       </div>
+
+      {selectedProduct && (
+        <div className="fixed inset-0 z-[70] flex items-end justify-center bg-black/45 p-0 lg:items-center lg:p-6">
+          <div
+            className="absolute inset-0"
+            onClick={() => setSelectedProduct(null)}
+          />
+
+          <div className="relative max-h-[92vh] w-full overflow-y-auto rounded-t-3xl bg-white shadow-2xl animate-slide-up lg:max-w-4xl lg:rounded-2xl lg:animate-fade-in-scale">
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="absolute right-4 top-4 z-10 rounded-full bg-white/95 p-2 text-[#1C1C1C] shadow-md hover:bg-[#F2F2EC]"
+              aria-label="Cerrar detalle"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]">
+              <ProductImage
+                product={selectedProduct}
+                className="h-[260px] w-full rounded-t-3xl lg:h-full lg:min-h-[520px] lg:rounded-l-2xl lg:rounded-tr-none"
+              />
+
+              <div className="p-5 lg:p-8">
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-[#F1F8E9] px-3 py-1 text-sm font-bold text-[#2E7D32]">
+                    {selectedProduct.category}
+                  </span>
+                  {selectedProduct.unit && (
+                    <span className="rounded-full bg-[#F2F2EC] px-3 py-1 text-sm font-medium text-[#757575]">
+                      {selectedProduct.unit}
+                    </span>
+                  )}
+                </div>
+
+                <h2
+                  className="mb-3 text-3xl font-bold leading-tight text-[#1C1C1C] lg:text-4xl"
+                  style={{ fontFamily: 'var(--font-display)' }}
+                >
+                  {selectedProduct.name}
+                </h2>
+
+                <div className="mb-5">
+                  <p className="text-3xl font-bold text-[#2E7D32]">
+                    S/ {(selectedProduct.promoPrice || selectedProduct.price).toFixed(2)}
+                  </p>
+                  {selectedProduct.promo && (
+                    <p className="text-base text-[#757575] line-through">
+                      S/ {selectedProduct.price.toFixed(2)}
+                    </p>
+                  )}
+                </div>
+
+                {selectedProduct.description && (
+                  <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-[#4F4F4F]">
+                    {selectedProduct.description}
+                  </p>
+                )}
+
+                <div className="mb-6 rounded-xl bg-[#FAFAF7] p-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-[#757575]">Stock disponible</span>
+                    <span className="font-bold text-[#1C1C1C]">
+                      {selectedProduct.stock} unidades
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => handleDetailAddToCart(selectedProduct)}
+                  disabled={selectedProduct.stock === 0}
+                  className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#2E7D32] text-lg font-bold text-white transition-colors hover:bg-[#1B5E20] disabled:bg-gray-400"
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  Agregar al carrito
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

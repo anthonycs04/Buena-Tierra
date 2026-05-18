@@ -54,19 +54,39 @@ export function FarmerOrderSummary() {
 
   const orderedProducts = [
     {
-      productName: 'Lechuga Carola',
+      productName: 'Acelga agroecológica',
+      quantityOrdered: 1,
+      unit: 'atado',
+    },
+    {
+      productName: 'Apio agroecológico',
+      quantityOrdered: 1,
+      unit: 'atado',
+    },
+    {
+      productName: 'Cilantro agroecológico',
+      quantityOrdered: 1,
+      unit: 'atado',
+    },
+    {
+      productName: 'Espinaca agroecológica',
+      quantityOrdered: 1,
+      unit: 'atado',
+    },
+    {
+      productName: 'Lechuga carola agroecológica',
       quantityOrdered: 1,
       unit: 'unidad',
     },
     {
-      productName: 'Tomate cherry rojo',
-      quantityOrdered: 500,
-      unit: 'gr',
-    },
-    {
-      productName: 'Albahaca',
+      productName: 'Perejil agroecológico',
       quantityOrdered: 1,
       unit: 'atado',
+    },
+    {
+      productName: 'Tomate agroecológica',
+      quantityOrdered: 1,
+      unit: 'kg',
     },
   ];
 
@@ -74,15 +94,12 @@ export function FarmerOrderSummary() {
     const name = productName.toLowerCase();
 
     if (name.includes('tomate')) return '🍅';
-    if (name.includes('brócoli') || name.includes('brocoli')) return '🥦';
+    if (name.includes('acelga')) return '🥬';
     if (name.includes('espinaca')) return '🥬';
     if (name.includes('lechuga')) return '🥬';
-    if (name.includes('albahaca')) return '🌿';
     if (name.includes('perejil')) return '🌿';
     if (name.includes('cilantro')) return '🌿';
     if (name.includes('apio')) return '🥬';
-    if (name.includes('beterraga')) return '🫜';
-    if (name.includes('rabanito')) return '🔴';
 
     return '🌿';
   };

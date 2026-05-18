@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 export type PeriodStatus = 'activo' | 'cerrado' | 'proximo';
+export type ProduceUnit = 'kg' | 'unidad' | 'gr' | 'atado';
 
 export interface Period {
   id: string;
@@ -25,7 +26,7 @@ export interface PresetProduct {
   id: string;
   name: string;
   category: 'hortaliza' | 'fruta';
-  unit: 'kg' | 'unidad';
+  unit: ProduceUnit;
   icon: string;
 }
 
@@ -35,7 +36,7 @@ export interface FarmerProduct {
   periodId: string;
   productName: string;
   quantity: number;
-  unit: 'kg' | 'unidad';
+  unit: ProduceUnit;
   farmerPrice: number;
   customerPrice?: number; // Set by admin
   createdAt: Date;
@@ -103,16 +104,13 @@ const FreshProduceContext = createContext<FreshProduceContextType | undefined>(u
 
 // Mock data
 const mockPresetProducts: PresetProduct[] = [
-  { id: '1', name: 'Tomate', category: 'hortaliza', unit: 'kg', icon: '🍅' },
-  { id: '2', name: 'Brócoli', category: 'hortaliza', unit: 'kg', icon: '🥦' },
-  { id: '3', name: 'Espinaca', category: 'hortaliza', unit: 'kg', icon: '🥬' },
-  { id: '4', name: 'Lechuga', category: 'hortaliza', unit: 'unidad', icon: '🥗' },
-  { id: '5', name: 'Zanahoria', category: 'hortaliza', unit: 'kg', icon: '🥕' },
-  { id: '6', name: 'Papa', category: 'hortaliza', unit: 'kg', icon: '🥔' },
-  { id: '7', name: 'Cebolla', category: 'hortaliza', unit: 'kg', icon: '🧅' },
-  { id: '8', name: 'Manzana', category: 'fruta', unit: 'kg', icon: '🍎' },
-  { id: '9', name: 'Plátano', category: 'fruta', unit: 'kg', icon: '🍌' },
-  { id: '10', name: 'Naranja', category: 'fruta', unit: 'kg', icon: '🍊' },
+  { id: '1', name: 'Acelga agroecológica', category: 'hortaliza', unit: 'atado', icon: '🥬' },
+  { id: '2', name: 'Apio agroecológico', category: 'hortaliza', unit: 'atado', icon: '🥬' },
+  { id: '3', name: 'Cilantro agroecológico', category: 'hortaliza', unit: 'atado', icon: '🌿' },
+  { id: '4', name: 'Espinaca agroecológica', category: 'hortaliza', unit: 'atado', icon: '🥬' },
+  { id: '5', name: 'Lechuga carola agroecológica', category: 'hortaliza', unit: 'unidad', icon: '🥬' },
+  { id: '6', name: 'Perejil agroecológico', category: 'hortaliza', unit: 'atado', icon: '🌿' },
+  { id: '7', name: 'Tomate agroecológica', category: 'hortaliza', unit: 'kg', icon: '🍅' },
 ];
 
 const mockFarmers: Farmer[] = [
@@ -146,11 +144,11 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '1',
     farmerId: '1',
     periodId: '1',
-    productName: 'Tomate',
-    quantity: 50,
-    unit: 'kg',
-    farmerPrice: 4.50,
-    customerPrice: 6.00,
+    productName: 'Acelga agroecológica',
+    quantity: 20,
+    unit: 'atado',
+    farmerPrice: 2.90,
+    customerPrice: 2.90,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -158,11 +156,11 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '2',
     farmerId: '2',
     periodId: '1',
-    productName: 'Tomate',
-    quantity: 30,
-    unit: 'kg',
-    farmerPrice: 4.80,
-    customerPrice: 6.00,
+    productName: 'Apio agroecológico',
+    quantity: 18,
+    unit: 'atado',
+    farmerPrice: 2.90,
+    customerPrice: 2.90,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -170,11 +168,11 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '3',
     farmerId: '3',
     periodId: '1',
-    productName: 'Tomate',
-    quantity: 20,
-    unit: 'kg',
-    farmerPrice: 4.20,
-    customerPrice: 6.00,
+    productName: 'Cilantro agroecológico',
+    quantity: 25,
+    unit: 'atado',
+    farmerPrice: 2.30,
+    customerPrice: 2.30,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -182,11 +180,11 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '4',
     farmerId: '1',
     periodId: '1',
-    productName: 'Brócoli',
-    quantity: 25,
-    unit: 'kg',
-    farmerPrice: 5.00,
-    customerPrice: 7.50,
+    productName: 'Espinaca agroecológica',
+    quantity: 16,
+    unit: 'atado',
+    farmerPrice: 4.20,
+    customerPrice: 4.20,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -194,11 +192,11 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '5',
     farmerId: '2',
     periodId: '1',
-    productName: 'Espinaca',
-    quantity: 15,
-    unit: 'kg',
-    farmerPrice: 3.50,
-    customerPrice: 5.00,
+    productName: 'Lechuga carola agroecológica',
+    quantity: 24,
+    unit: 'unidad',
+    farmerPrice: 2.90,
+    customerPrice: 2.90,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -207,11 +205,11 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '6',
     farmerId: '1',
     periodId: '2',
-    productName: 'Tomate',
-    quantity: 40,
-    unit: 'kg',
-    farmerPrice: 4.50,
-    customerPrice: 6.00,
+    productName: 'Acelga agroecológica',
+    quantity: 12,
+    unit: 'atado',
+    farmerPrice: 2.90,
+    customerPrice: 2.90,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -219,11 +217,11 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '7',
     farmerId: '1',
     periodId: '2',
-    productName: 'Brócoli',
-    quantity: 30,
-    unit: 'kg',
-    farmerPrice: 5.00,
-    customerPrice: 7.50,
+    productName: 'Lechuga carola agroecológica',
+    quantity: 18,
+    unit: 'unidad',
+    farmerPrice: 2.90,
+    customerPrice: 2.90,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -231,10 +229,10 @@ const mockFarmerProducts: FarmerProduct[] = [
     id: '8',
     farmerId: '1',
     periodId: '2',
-    productName: 'Espinaca',
-    quantity: 20,
+    productName: 'Tomate agroecológica',
+    quantity: 10,
     unit: 'kg',
-    farmerPrice: 3.50,
+    farmerPrice: 5.00,
     customerPrice: 5.00,
     createdAt: new Date(),
     updatedAt: new Date(),
