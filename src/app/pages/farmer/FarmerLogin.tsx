@@ -85,7 +85,7 @@ export function FarmerLogin() {
               Agricultores registrados pueden ingresar
             </p>
             <p className="text-xs text-[#757575] mt-2">
-              📞 Contacto: +51 999 888 777
+              📞 Contacto: +51 914 814 573
             </p>
           </div>
         </div>

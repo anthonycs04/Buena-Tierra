@@ -65,7 +65,7 @@ const mockProducts: Product[] = [
       '/images/ACELGA AGROECOLÓGICA- fondo blanco.jpg',
       '/images/ACELGA AGROECOLÓGICA- en campo.jpg',
     ],
-    category: 'hortalizas',
+    category: 'Hortalizas',
     unit: 'atado',
     description: `Libre de agroquímicos y fertilizantes sintéticos.
 Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
@@ -82,7 +82,7 @@ Producido por: Eudosia Otoya, agricultora agroecológica de La Yarada Los Palos`
       '/images/APIO AGROECOLÓGICO- fondo blanco.jpg',
       '/images/APIO AGROECOLÓGICO-campo.jpg',
     ],
-    category: 'hortalizas',
+    category: 'Hortalizas',
     unit: 'atado',
     description: `Libre de agroquímicos y fertilizantes sintéticos.
 Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
@@ -98,7 +98,7 @@ Producido por: Julia Mamani Cárdenas, agricultora agroecológica de Calana`,
       '/images/CILANTRO AGROECOLÓGICO- fondo blanco.jpg',
       '/images/CILANTRO AGROECOLÓGICO- campo.jpg',
     ],
-    category: 'hierbas',
+    category: 'Hierbas',
     unit: 'atado',
     description: `Libre de agroquímicos y fertilizantes sintéticos.
 Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
@@ -114,7 +114,7 @@ Producido por: Eudosia Otoya, agricultora agroecológica de La Yarada Los Palos`
       '/images/ESPINACA-ORGANICA-TUMERCADO.jpg',
       '/images/ESPINACA AGROECOLÓGICA-campo.png',
     ],
-    category: 'hortalizas',
+    category: 'Hortalizas',
     unit: 'atado',
     description: `Libre de agroquímicos y fertilizantes sintéticos.
 Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
@@ -127,7 +127,7 @@ Proveedor: Eudosia Otoya, agricultora agroecológica de La Yarada Los Palos`,
     name: 'Frejol negro orgánico, Campo Verde Ayacucho, 500 gr',
     price: 9.90,
     image: '/images/FREJOL NEGRO ORGÁNICO.png',
-    category: 'menestras',
+    category: 'Menestras',
     unit: '500 gr',
     description: `Es un alimento energético y una de las mejores fuentes de proteína vegetal.
 Excelente fuente de energía y fibra, tienen un bajo índice glucémico, con grandes propiedades desintoxicantes.
@@ -145,7 +145,7 @@ Producido por: Cooperativa Agraria Frutos del Ande`,
       '/images/LECHUGA AGROECOLÓGICA- fondo blanco.png',
       '/images/LECHUGA CAROLA AGROECOLÓGICA - en campo.jpg',
     ],
-    category: 'hortalizas',
+    category: 'Hortalizas',
     unit: 'unidad',
     description: `Libre de agroquímicos y fertilizantes sintéticos.
 Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
@@ -157,7 +157,7 @@ Producido por: Julia Mamani Cárdenas, agricultora agroecológica de Calana`,
     name: 'Miel de abeja virgen, Monteflor, 1 kg',
     price: 35.00,
     image: '/images/MIEL DE ABEJA VIRGEN.png',
-    category: 'miel y derivados',
+    category: 'Miel y derivados',
     unit: '1 kg',
     description: `100 % miel de abeja virgen de Sama y Tarata, con floración silvestre de los árboles de chañal, molle, chilca, frutales y trébol.
 La cristalización y dosificación de una miel virgen es un proceso natural frente a los cambios de temperatura y peso del tiempo.
@@ -172,7 +172,7 @@ Apicultor profesional: Ing. Jorge Segura Dávila`,
     name: 'Panela orgánica, Norandino, 500 gr',
     price: 7.50,
     image: '/images/PANELA ORGÁNICA.jpg',
-    category: 'endulzante',
+    category: 'Endulzante',
     unit: '500 gr',
     description: `Es un endulzante natural obtenido solo de la evaporación de agua de los jugos de caña y la cristalización de la sacarosa, el mismo que contiene minerales y vitaminas.
 Origen: Piura
@@ -188,7 +188,7 @@ Producido por: Cooperativa Agraria Norandino`,
       '/images/PEREJIL AGROECOLÓGICO- fondo blanco.jpg',
       '/images/PEREJIL AGROECOLÓGICO- campo.jfif',
     ],
-    category: 'hierbas',
+    category: 'Hierbas',
     unit: 'atado',
     description: `Libre de agroquímicos y fertilizantes sintéticos.
 Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
@@ -204,7 +204,7 @@ Producido por: Carmen Mamani de Laquita, agricultora agroecológica de La Yarada
       '/images/TOMATE AGROECOLÓGICO - fondo blanco.jpg',
       '/images/TOMATE AGROECOLÓGICO- campo.jpg',
     ],
-    category: 'hortalizas',
+    category: 'Hortalizas',
     unit: 'kilo',
     description: `Libre de agroquímicos y fertilizantes sintéticos.
 Recíbelo fresco y recién cosechado todos los sábados y domingos haciendo tu pedido por anticipado.
@@ -250,8 +250,8 @@ const mockVendors: Vendor[] = [
   {
     id: '1',
     name: 'María López',
-    email: 'maria@buenatierra.pe',
-    phone: '+51 999 888 777',
+    email: 'adm.buenatierra@gmail.com',
+    phone: '+51 914 814 573',
     role: 'vendedor',
     ordersCount: 45,
     revenue: 2340.00,

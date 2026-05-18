@@ -73,7 +73,7 @@ Estado: Nuevo pedido registrado`;
   };
 
   const handleWhatsApp = () => {
-    const whatsappNumber = '51999888777';
+    const whatsappNumber = '51914814573';
     const message = generateWhatsAppMessage();
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
   };

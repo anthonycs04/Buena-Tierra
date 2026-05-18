@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Search, ShoppingCart, Plus, Check, Minus, X } from 'lucide-react';
+import {
+  Search,
+  ShoppingCart,
+  Plus,
+  Check,
+  Minus,
+  X,
+  Menu,
+  MessageCircle,
+  Phone,
+  Mail,
+} from 'lucide-react';
 import { Product, useCart } from '../../contexts/CartContext';
 import { useAdmin } from '../../contexts/AdminContext';
 import { CartSheet } from '../../components/CartSheet';
@@ -12,19 +23,28 @@ const catalogBanner = '/banner/20260517_232520.jpg.jpeg';
 const categories = [
   'Todo',
   'Destacados',
-  'hortalizas',
-  'hierbas',
-  'menestras',
-  'endulzante',
-  'miel y derivados',
-  'sin gluten',
-  'frutas',
-  'pan',
-  'aceites',
-  'fideos',
-  'snacks',
-  'untables',
+  'Hortalizas',
+  'Hierbas',
+  'Frutas',
+  'Menestras',
+  'Endulzante',
+  'Miel y derivados',
+  'Sin gluten',
+  'Pan',
+  'Aceites',
+  'Fideos',
+  'Snacks',
+  'Untables',
 ];
+
+const contactInfo = {
+  whatsapp: '914 814 573',
+  phone: '914 814 573',
+  email: 'adm.buenatierra@gmail.com',
+  whatsappUrl: 'https://wa.me/51914814573',
+  phoneUrl: 'tel:+51914814573',
+  emailUrl: 'mailto:adm.buenatierra@gmail.com',
+};
 
 export function Catalog() {
   const navigate = useNavigate();
@@ -33,6 +53,7 @@ export function Catalog() {
   const [selectedCategory, setSelectedCategory] = useState('Todo');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const filteredProducts = products.filter((product) => {
@@ -102,18 +123,27 @@ export function Catalog() {
                 Por una agricultura sustentable y justa
               </p>
             </div>
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="relative rounded-full bg-white/90 p-2 shadow-md backdrop-blur-sm"
-              aria-label="Cart"
-            >
-              <ShoppingCart className="w-6 h-6 text-[#2E7D32]" />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#F9A825] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-                  {itemCount}
-                </span>
-              )}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="rounded-full bg-white/90 p-2 shadow-md backdrop-blur-sm"
+                aria-label="Abrir informacion"
+              >
+                <Menu className="w-6 h-6 text-[#2E7D32]" />
+              </button>
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative rounded-full bg-white/90 p-2 shadow-md backdrop-blur-sm"
+                aria-label="Cart"
+              >
+                <ShoppingCart className="w-6 h-6 text-[#2E7D32]" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#F9A825] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+            </div>
             </div>
           </div>
 
@@ -152,6 +182,77 @@ export function Catalog() {
           </div>
           </div>
         </header>
+
+        {isMobileMenuOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-[60] bg-black/45 lg:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <div className="fixed left-4 right-4 top-4 z-[70] rounded-2xl bg-white p-5 shadow-2xl animate-fade-in-scale lg:hidden">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wide text-[#2E7D32]">
+                    Buena Tierra
+                  </p>
+                  <h2 className="text-xl font-bold text-[#1C1C1C]">
+                    Contacto
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="rounded-full bg-[#F2F2EC] p-2 text-[#1C1C1C]"
+                  aria-label="Cerrar menu"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <a
+                  href={contactInfo.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex min-h-[56px] items-center gap-3 rounded-xl border border-[#E8E8E0] px-4 text-[#1C1C1C]"
+                >
+                  <MessageCircle className="h-5 w-5 flex-shrink-0 text-[#2E7D32]" />
+                  <span className="min-w-0">
+                    <span className="block text-xs font-medium text-[#757575]">
+                      WhatsApp
+                    </span>
+                    <span className="block font-bold">{contactInfo.whatsapp}</span>
+                  </span>
+                </a>
+                <a
+                  href={contactInfo.phoneUrl}
+                  className="flex min-h-[56px] items-center gap-3 rounded-xl border border-[#E8E8E0] px-4 text-[#1C1C1C]"
+                >
+                  <Phone className="h-5 w-5 flex-shrink-0 text-[#2E7D32]" />
+                  <span className="min-w-0">
+                    <span className="block text-xs font-medium text-[#757575]">
+                      Celular
+                    </span>
+                    <span className="block font-bold">{contactInfo.phone}</span>
+                  </span>
+                </a>
+                <a
+                  href={contactInfo.emailUrl}
+                  className="flex min-h-[56px] items-center gap-3 rounded-xl border border-[#E8E8E0] px-4 text-[#1C1C1C]"
+                >
+                  <Mail className="h-5 w-5 flex-shrink-0 text-[#2E7D32]" />
+                  <span className="min-w-0">
+                    <span className="block text-xs font-medium text-[#757575]">
+                      Correo
+                    </span>
+                    <span className="block break-all font-bold">
+                      {contactInfo.email}
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Product List - Mobile Horizontal Cards */}
         <div className="pt-[14.75rem] px-4 space-y-2 pb-4">
@@ -295,15 +396,43 @@ export function Catalog() {
               </p>
             </div>
 
-            <div className="relative w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#757575]" />
-              <input
-                type="text"
-                placeholder="Buscar productos..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-12 pl-10 pr-4 bg-white/95 border border-white/70 rounded-xl text-sm shadow-md backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#2E7D32]"
-              />
+            <div className="flex min-w-[340px] flex-col items-end gap-3">
+              <div className="flex flex-wrap justify-end gap-2 text-xs font-bold text-[#1C1C1C]">
+                <a
+                  href={contactInfo.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1.5 shadow-md backdrop-blur-sm"
+                >
+                  <MessageCircle className="h-4 w-4 text-[#2E7D32]" />
+                  WhatsApp {contactInfo.whatsapp}
+                </a>
+                <a
+                  href={contactInfo.phoneUrl}
+                  className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1.5 shadow-md backdrop-blur-sm"
+                >
+                  <Phone className="h-4 w-4 text-[#2E7D32]" />
+                  Celular {contactInfo.phone}
+                </a>
+                <a
+                  href={contactInfo.emailUrl}
+                  className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1.5 shadow-md backdrop-blur-sm"
+                >
+                  <Mail className="h-4 w-4 text-[#2E7D32]" />
+                  {contactInfo.email}
+                </a>
+              </div>
+
+              <div className="relative w-80">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#757575]" />
+                <input
+                  type="text"
+                  placeholder="Buscar productos..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-12 pl-10 pr-4 bg-white/95 border border-white/70 rounded-xl text-sm shadow-md backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#2E7D32]"
+                />
+              </div>
             </div>
           </div>
         </header>

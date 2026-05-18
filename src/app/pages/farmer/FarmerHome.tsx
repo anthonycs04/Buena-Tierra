@@ -163,10 +163,10 @@ export function FarmerHome() {
           Llama a Buena Tierra si tienes dudas o problemas
         </p>
         <a
-          href="tel:+51999888777"
+          href="tel:+51914814573"
           className="flex items-center justify-center gap-2 w-full h-14 border-2 border-[#2E7D32] text-[#2E7D32] rounded-xl font-bold text-lg hover:bg-[#F1F8E9] transition-colors"
         >
-          📞 +51 999 888 777
+          📞 +51 914 814 573
         </a>
       </div>
 
